@@ -1,0 +1,100 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Node.js CRUD API"
+  },
+  "paths": {
+    "/items": {
+      "get": {
+        "description": "Get all items",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "Create a new item",
+        "parameters": [
+          {
+            "name": "item",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+               "example": {
+                "id": "123",
+                "name": "Example Item"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Item created",
+             "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "123"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Example Item"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/{id}": {
+      "put": {
+        "description": "Update an item by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "item",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+                 "example": {
+                "id": "123",
+                "name": "Example Item"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item updated"
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete an item by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Item deleted"
+          }
+        }
+      }
+    }
+  }
+}
