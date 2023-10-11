@@ -13,10 +13,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-     - name: Update Docker settings
-        run: |
-          sudo sed -i 's/ }/, \"max-concurrent-uploads\": 2 }/' /etc/docker/daemon.json
-          sudo systemctl restart docker
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
@@ -37,6 +33,7 @@ jobs:
 
       - name: Push image to DigitalOcean Container Registry
         run: docker push registry.digitalocean.com/swagex/swagex-api:$(echo $GITHUB_SHA | head -c7)
+
 
       - name: Update deployment file
         run: |
