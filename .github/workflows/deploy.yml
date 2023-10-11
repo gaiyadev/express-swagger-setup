@@ -24,20 +24,6 @@ jobs:
 
     - name: Log in to DigitalOcean Container Registry with short-lived credentials
       run: doctl registry login --expiry-seconds 1200
-    
-    - name: Remove all old images
-      run: |
-        if [ ! -z "$(doctl registry repository list | grep "$(echo $IMAGE_NAME)")" ]; then
-          TAGS=$(doctl registry repository list-tags $(echo $IMAGE_NAME) --format "Tag" --no-header)
-          for TAG in $TAGS; do
-            if [ "$TAG" != "latest" ]; then
-              doctl registry repository delete-manifest $(echo $IMAGE_NAME) $TAG --force
-            fi
-          done
-        else
-          echo "No repository"
-        fi
-
 
     - name: Push image to DigitalOcean Container Registry
       run: docker push registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:$(echo $GITHUB_SHA | head -c7)
