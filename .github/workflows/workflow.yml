@@ -1,35 +1,51 @@
-name: CI/CD for Swagex App Deployment
+name: Build, push, and deploy
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'config/**'
+      - 'src/**'  # Update the path to your source code directory
+      - 'Dockerfile'
+      - '.github/workflows/**'
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout main
+        uses: actions/checkout@main
 
-      - name: Set version tag
-        run: echo "TAG=v1.0.0" >> $GITHUB_ENV
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build container image
         run: |
-          docker build -t registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:$TAG .
-          docker push registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:$TAG
+          TAG=$(echo $GITHUB_SHA | head -c7)
+          docker build -t registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:${TAG} .
+          echo $TAG >> $GITHUB_ENV
+        shell: bash
 
-      - name: Update Kubernetes deployment file
-        run: sed -i 's|swagex-app|registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:'"$TAG"'|' $GITHUB_WORKSPACE/k8s/deployment.yml
+      - name: Log in to DigitalOcean Container Registry with short-lived credentials
+        run: doctl registry login --expiry-seconds 1200
 
-      - name: Log in to DigitalOcean Kubernetes cluster
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 pool-278vifau6
+      - name: Push image to DigitalOcean Container Registry
+        run: docker push registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:${{ env.TAG }}
 
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yml
-          kubectl apply -f $GITHUB_WORKSPACE/k8s/service.yml
+      - name: Update deployment file
+      run: |
+        kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yml
+        kubectl apply -f $GITHUB_WORKSPACE/k8s/service.yml
+        shell: bash
+
+      - name: Save DigitalOcean kubeconfig with short-lived credentials
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 your-cluster-name
+
+      - name: Deploy to DigitalOcean Kubernetes
+        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
 
       - name: Verify deployment
-        run: kubectl rollout status deployment/swagex-deployment
+        run: kubectl rollout status deployment/your-app-name
