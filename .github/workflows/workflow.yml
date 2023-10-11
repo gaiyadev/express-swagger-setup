@@ -21,7 +21,7 @@ jobs:
           docker push registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:$TAG
 
       - name: Update Kubernetes deployment file
-        run: sed -i 's|<IMAGE>|registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:'"$TAG"'|' $GITHUB_WORKSPACE/k8s/deployment.yml
+        run: sed -i 's|swagex-app|registry.digitalocean.com/registry.digitalocean.com/swagex/swagex-app:'"$TAG"'|' $GITHUB_WORKSPACE/k8s/deployment.yml
 
       - name: Log in to DigitalOcean Kubernetes cluster
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 pool-278vifau6
