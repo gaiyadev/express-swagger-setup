@@ -13,12 +13,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Update Docker settings
+     - name: Update Docker settings
         run: |
           sudo sed -i 's/ }/, \"max-concurrent-uploads\": 2 }/' /etc/docker/daemon.json
           sudo systemctl restart docker
-          
+    steps:
       - name: Check out the code
         uses: actions/checkout@v2
 
@@ -26,7 +25,7 @@ jobs:
         run: |
           curl -sL https://github.com/digitalocean/doctl/releases/download/v1.66.0/doctl-1.66.0-linux-amd64.tar.gz | tar -xzv
           sudo mv doctl /usr/local/bin
-           doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
         env:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
@@ -48,7 +47,7 @@ jobs:
         run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 <cluster-name>
 
       - name: Deploy to DigitalOcean Kubernetes
-        run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yml
+        run: kubectl apply -f $GITHUB_WORKSPACE/k8s/deployment.yml && kubectl apply -f $GITHUB_WORKSPACE/k8s/service.yml
 
       - name: Verify deployment
         run: kubectl rollout status deployment/<deployment-name>
