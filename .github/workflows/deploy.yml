@@ -1,4 +1,4 @@
-name: SwagexDigitalOcean Kubernetes Deployment
+name: Swagex DigitalOcean Kubernetes Deployment
 
 on:
   push:
