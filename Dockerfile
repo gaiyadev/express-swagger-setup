@@ -1,12 +1,12 @@
-FROM node:14
+FROM node:latest
 
-WORKDIR /usr/src/app
+WORKDIR  /app
 
-COPY package*.json ./
+COPY package.json /app
 
 RUN npm install
 
-COPY .github/workflows .
+COPY . /app
 
 EXPOSE 3000
 
