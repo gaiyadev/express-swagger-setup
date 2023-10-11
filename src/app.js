@@ -38,6 +38,10 @@ app.delete('/items/:id', (req, res) => {
   res.sendStatus(204);
 });
 
+app.get('/users', (req, res) => {
+  res.sendStatus(204);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

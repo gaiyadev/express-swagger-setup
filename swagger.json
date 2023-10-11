@@ -4,6 +4,11 @@
     "version": "1.0.0",
     "title": "Node.js CRUD API"
   },
+  "schemes": [
+    "http"
+  ],
+  "host": "localhost:3000",
+  "basePath": "/api",
   "paths": {
     "/items": {
       "get": {
@@ -95,6 +100,20 @@
           }
         }
       }
+    },
+    "/users": {
+        "get": {
+        "description": "Get all items",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post":{
+
+      }
     }
+    
   }
 }
