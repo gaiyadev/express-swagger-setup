@@ -29,6 +29,6 @@ jobs:
       run: |
         # Assuming your app is managed by PM2
         pm2 restart src/app.js
-      working-directory: /root/actions-runner/_work/express-swagger-setup/express-swagger-setup/
+      working-directory: ~/root/actions-runner/_work/express-swagger-setup/express-swagger-setup/
 
       
