@@ -39,7 +39,7 @@ app.delete('/items/:id', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.json({message: "hiiii"});
+  res.json({message: "Now conformtable"});
 });
 const PORT = process.env.PORT
 app.listen(PORT, () => {
