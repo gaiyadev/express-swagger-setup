@@ -39,7 +39,7 @@ app.delete('/items/:id', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send("204");
+  res.json({message: "hiiii"});
 });
 
 app.listen(PORT, () => {
