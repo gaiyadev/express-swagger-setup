@@ -2,9 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./../swagger.json'); // Load your Swagger JSON file
+require('dotenv').config()
 
 const app = express();
-const PORT = 3000;
 
 app.use(bodyParser.json());
 
@@ -41,7 +41,7 @@ app.delete('/items/:id', (req, res) => {
 app.get('/', (req, res) => {
   res.json({message: "hiiii"});
 });
-
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
