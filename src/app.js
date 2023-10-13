@@ -38,8 +38,8 @@ app.delete('/items/:id', (req, res) => {
   res.sendStatus(204);
 });
 
-app.get('/users', (req, res) => {
-  res.sendStatus(204);
+app.get('/', (req, res) => {
+  res.send("204");
 });
 
 app.listen(PORT, () => {
