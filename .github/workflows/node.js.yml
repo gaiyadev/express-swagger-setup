@@ -28,7 +28,7 @@ jobs:
     - name: Restart Node.js Application
       run: |
         # Assuming your app is managed by PM2
-        pm2 restart ./src/app.js
-      working-directory: /root/actions-runner/_work/express-swagger-setup/express-swagger-setup
+        pm2 restart src/app.js
+      working-directory: /root/actions-runner/_work/express-swagger-setup/express-swagger-setup/
 
       
