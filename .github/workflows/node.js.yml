@@ -25,8 +25,9 @@ jobs:
     - run: npm ci
       # Your other build and test steps go here
 
-    # - name: Restart Node.js Application
-      # run: |
-      #   # Assuming your app is managed by PM2
-      #   pm2 restart src/app.js
-      # working-directory: /root/actions-runner/_work/do-cicd/do-cicd/
+    - name: Restart Node.js Application
+      run: |
+        # Assuming your app is managed by PM2
+        pm2 restart src/app.js
+      working-directory: /root/actions-runner/_work/express-swagger-setup/express-swagger-setup
+      
