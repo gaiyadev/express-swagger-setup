@@ -1,4 +1,4 @@
-name: Node.js CI Digital Ocean Test
+name: SWagex CI Digital Ocean Test
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x] # Use the appropriate Node.js version
+        node-version: [18.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +25,7 @@ jobs:
     - run: npm ci
       # Your other build and test steps go here
 
-    - name: Restart Node.js Application
+    # - name: Restart Node.js Application
       # run: |
       #   # Assuming your app is managed by PM2
       #   pm2 restart src/app.js
