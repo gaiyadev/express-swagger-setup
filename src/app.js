@@ -1,20 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./../swagger.json'); // Load your Swagger JSON file
+const swaggerDocument = require('./../swagger.json'); 
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-// Sample data (in-memory database)
 let items = [];
 
-// Swagger UI route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// CRUD operations
 app.get('/items', (req, res) => {
   res.json(items);
 });
