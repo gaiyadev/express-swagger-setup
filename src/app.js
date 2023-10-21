@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 let items = [];
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/items', (req, res) => {
   res.json(items);
